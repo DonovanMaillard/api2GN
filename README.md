@@ -172,3 +172,14 @@ Attributes surcouchable:
 
 ```
 
+
+## Récupérer des données depuis le GBIF
+
+Un parser GBIF est disponible et surcouchable pour récupérer des données depuis les API du GBIF (https://techdocs.gbif.org/en/openapi/v1/occurrence#/Searching%20occurrences/searchOccurrence). Ce parser récupère les données sans les métadonnées. 
+
+Les données du GBIF ne sont pas formatées en suivant le référentiel taxonomique Taxref, il est donc nécessaire de stocker en amont la correspondance entre les cd_noms présents dans votre version de taxref, et les identifiants de taxons du GBIF. À noter que le taux de correspondance entre les 2 référentiels n'est pas de 100%, certaines données génèreront des erreurs qui seront consignées dans un fichier de log et pour lesquelles des correspondances pourront éventuellement être faites manuellement.
+
+Afin de stocker ces correspondances d'identifiants des taxons, vous devez lancer la fonction gbif>get_cor_taxref_gbif. 
+Celle-ci génère une table `cor_taxref_gbif` dans le schéma api2gn et y stocke l'identifiant gbif trouvé pour chacun des cd_noms de votre table taxonomie.taxref, en s'appuyant sur l'API TaxRef (https://taxref.mnhn.fr/taxref-web/api/doc). 
+
+Les cd_nom qui n'ont pas d'identifiant gbif ou qui en ont plusieurs n'y seront pas stockés.
